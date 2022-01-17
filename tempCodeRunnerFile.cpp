@@ -1,59 +1,61 @@
-#include <bits/stdc++.h>
-
-using namespace std;
-
-/*
- * Complete the 'commonChild' function below.
- *
- * The function is expected to return an INTEGER.
- * The function accepts following parameters:
- *  1. STRING s1
- *  2. STRING s2
- */
-
-int commonChild(string s1, string s2)
+long getWays(int n, vector<long> c)
 {
-    int m = s1.length();
-    int n = s2.length();
-    int L[m + 1][n + 1];
-    int i, j;
 
-    /* Following steps build L[m+1][n+1] in bottom up fashion. Note 
-      that L[i][j] contains length of LCS of X[0..i-1] and Y[0..j-1] */
-    for (i = 0; i <= m; i++)
+    sort(c.begin(), c.end());
+    int64_t no = n;
+    int64_t ts = 0;
+    vector<int64_t> v;
+    vector<int64_t> loc(c[c.size() - 1] , 0);
+    for (int64_t i = 0; i < (no / c[0]); i++)
     {
-        for (j = 0; j <= n; j++)
+        v.push_back(c[0]);
+    }
+    for (int64_t i = 0; i < c.size(); i++)
+    {
+        loc[c[i]] = i;
+    }
+    // for (int64_t a = 0; a < v.size(); a++)
+    //     cout << v[a] << " ";
+
+    // cout << endl;    
+
+    int64_t sum = c[0] * (no / c[0]);
+    if (sum == no)
+    {
+        ts++;
+    }
+    int64_t j = 0;
+    while (v.size() > 0)
+    {
+        sum = sum - v[v.size() - 1];
+        // auto it = find(c.begin(), c.end(), v[v.size() - 1]);
+        // int64_t y = it - c.begin();
+        int64_t y = loc[v[v.size() - 1]];
+        // cout << "Sum After Pop : " << sum << " Trying To add > " << y << endl;
+        v.pop_back();
+        int64_t temp = sum;
+        while (temp <= no)
         {
-            if (i == 0 || j == 0)
-                L[i][j] = 0;
+            if (temp + c[y + 1] <= no)
+            {
+                v.push_back(c[y + 1]);
+                if ((temp + c[y + 1]) == no)
+                {
+                    // for (int64_t a = 0; a < v.size(); a++)
+                    //     cout << v[a] << " ";
 
-            else if (s1[i - 1] == s2[j - 1])
-                L[i][j] = L[i - 1][j - 1] + 1;
-
-            else
-                L[i][j] = max(L[i - 1][j], L[i][j - 1]);
+                    // cout << endl;    
+                    ts++;
+                }
+                sum = sum + c[y + 1];
+                // cout << "Sum After Push : " << sum << endl;
+            }
+            temp = temp + c[y + 1];
         }
+
+
     }
 
-    // std::cout << L[m][n] << std::endl;
-    return L[m][n];
-}
-
-int main()
-{
-    ofstream fout(getenv("OUTPUT_PATH"));
-
-    string s1;
-    getline(cin, s1);
-
-    string s2;
-    getline(cin, s2);
-
-    int result = commonChild(s1, s2);
-
-    fout << result << "\n";
-
-    fout.close();
-
-    return 0;
+    cout << ts << endl;
+    return ts;
 }

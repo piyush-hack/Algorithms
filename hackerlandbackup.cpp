@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-#include <vector>
+
 using namespace std;
 
 string ltrim(const string &);
@@ -27,73 +27,57 @@ int hackerlandRadioTransmitters(vector<int> x, int k)
     {
         arr[x[i]] = x[i];
     }
-    // for (int i = 0; i < n + 1; ++i)
-    // {
-
-    //     cout << arr[i] << "  ";
-    // }
 
     int ttowers = 0;
     int ctsnull = 0;
     int tnull = 0;
-    // int lnonnull = 0;
-    vector<int> lnonnull;
+    int lnonnull = 0;
     int counter = 0;
 
     for (int i = 1; i < n + 1; i++)
     {
-        //std::cout << " " << counter << " " << ctsnull << std::endl;
+        // std::cout << " " << counter << " " << ctsnull << std::endl;
 
         if (counter == k || i == n)
         {
-            if (ctsnull != k)
+            if (ctsnull != k )
             {
-                //std::cout << "i is " << i << std::endl;
+                // std::cout << "i is " << i << std::endl;
                 if (arr[i] == 0)
                 {
-                    //std::cout << "cout is " << lnonnull[0] << std::endl;
-
-                    if (arr[i + 1] != 0 && (lnonnull[0]) >= (arr[i + 1] - k))
+                    if (arr[i + 1] != 0 && lnonnull >= (arr[i + 1] - k))
                     {
                         towers[i + 1] = 1;
-                        //cout << "y addding tower at : " << i + 1 << endl;
+                        // cout << "y addding tower at : " << i + 1 << endl;
                         ttowers++;
                         i = i + 1 + k;
                     }
                     else
                     {
-                        // int endofvector = ;
-                        towers[lnonnull[lnonnull.size() - 1]] = 1;
+
+                        towers[lnonnull] = 1;
                         ttowers++;
-                        //cout << "x addding tower at : " << lnonnull[lnonnull.size() - 1] << endl;
-                        i = lnonnull[lnonnull.size() - 1] + k;
+                        // cout << "x addding tower at : " << lnonnull << endl;
+                        i = lnonnull + k;
                     }
                 }
                 else
                 {
                     towers[i] = 1;
-                    //cout << "y addding tower at : " << i << endl;
+                    // cout << "y addding tower at : " << i << endl;
 
                     ttowers++;
                     i = i + k;
                 }
-            }
-            else
-            {
+            }else{
                 i--;
             }
 
             counter = 0;
             ctsnull = 0;
             tnull = 0;
-
-            int last = lnonnull[lnonnull.size() - 1];
-            //std::cout << "last " <<  lnonnull[lnonnull.size() - 1] << std::endl;
-            lnonnull.clear();
-            lnonnull.push_back(last);
-
             // std::cout << "i is " << i << std::endl;
-            //std::cout << std::endl;
+            // std::cout << std::endl;
         }
         else
         {
@@ -106,7 +90,7 @@ int hackerlandRadioTransmitters(vector<int> x, int k)
             else
             {
                 ctsnull = 0;
-                lnonnull.push_back(arr[i]);
+                lnonnull = arr[i];
                 // std::cout << "reset ctsnull at i " << i << std::endl;
             }
 
@@ -114,10 +98,18 @@ int hackerlandRadioTransmitters(vector<int> x, int k)
         }
     }
 
-    //cout << endl;
-    cout << ttowers;
+    // for (int i = 0; i < n + 1; ++i)
+
+    // {
+
+    //     cout << arr[i] << "  ";
+    // }
+    // cout << endl;
+    // cout << ttowers;
     return ttowers;
 }
+
+
 
 int main()
 {
@@ -139,8 +131,7 @@ int main()
 
     vector<int> x(n);
 
-    for (int i = 0; i < n; i++)
-    {
+    for (int i = 0; i < n; i++) {
         int x_item = stoi(x_temp[i]);
 
         x[i] = x_item;
@@ -155,37 +146,35 @@ int main()
     return 0;
 }
 
-string ltrim(const string &str)
-{
+string ltrim(const string &str) {
     string s(str);
 
     s.erase(
         s.begin(),
-        find_if(s.begin(), s.end(), not1(ptr_fun<int, int>(isspace))));
+        find_if(s.begin(), s.end(), not1(ptr_fun<int, int>(isspace)))
+    );
 
     return s;
 }
 
-string rtrim(const string &str)
-{
+string rtrim(const string &str) {
     string s(str);
 
     s.erase(
         find_if(s.rbegin(), s.rend(), not1(ptr_fun<int, int>(isspace))).base(),
-        s.end());
+        s.end()
+    );
 
     return s;
 }
 
-vector<string> split(const string &str)
-{
+vector<string> split(const string &str) {
     vector<string> tokens;
 
     string::size_type start = 0;
     string::size_type end = 0;
 
-    while ((end = str.find(" ", start)) != string::npos)
-    {
+    while ((end = str.find(" ", start)) != string::npos) {
         tokens.push_back(str.substr(start, end - start));
 
         start = end + 1;
